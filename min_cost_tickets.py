@@ -23,3 +23,16 @@ def tabu_cost(train_days, costs, n):
             month_cost = costs[2] + (dp[i-30] if i-30 >= 0 else 0)
             dp[i] = min(day_cost, week_cost, month_cost)
     return dp[n-1]
+
+
+def calcost(days, costs, trains):
+    dp = [0] * len(days)
+    for i in range(len(days)):
+        if i not in days:
+            dp[i] = dp[i-1] if i-1 >= 0 else 0
+        else:
+            cost = float("inf")
+            for j in range(len(trains)):
+                cost = min(cost, costs[j] + (dp[i-trains[j]] if i-trains[j] >= 0 else 0))
+            dp[i] = cost
+    return dp[-1]
